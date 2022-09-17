@@ -11,6 +11,7 @@ extents = Vector2( 32, 33 )
 [node name="Groudn thing" type="StaticBody2D" parent="."]
 position = Vector2( 29778, 1053 )
 scale = Vector2( 950.08, 0.2 )
+collision_layer = 2
 
 [node name="Icon" type="Sprite" parent="Groudn thing"]
 modulate = Color( 0.00784314, 1, 0, 1 )

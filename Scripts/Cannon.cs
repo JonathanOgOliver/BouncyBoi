@@ -15,14 +15,19 @@ public class Cannon : Node2D
     [Export] NodePath _StartOfBarrelPath;
     Node2D _StartOfBarrel;
 
+    [Export] NodePath _CameraPath;
+    Camera2D _Camera;
+
     [Export] PackedScene _BouncyBoy;
 
+    RigidBody2D _currentBoy;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _Output = GetNode<Node2D>(_OutputPath);
         _StartOfBarrel = GetNode<Node2D>(_StartOfBarrelPath);
+        _Camera = GetNode<Camera2D>(_CameraPath);
 
         _StartOfBarrel.RotationDegrees = _StartAngle;
     }
@@ -41,15 +46,17 @@ public class Cannon : Node2D
 
         _StartOfBarrel.RotationDegrees = Mathf.Clamp(_StartOfBarrel.RotationDegrees, _MinAngle, _MaxAngle);
 
-        if (Input.IsActionJustPressed("Fire"))
+        bool boyExists = IsInstanceValid(_currentBoy);
+        _Camera.Current = !boyExists;
+
+        if (Input.IsActionJustPressed("Fire") && !boyExists)
         {
-            var boy = _BouncyBoy.Instance<RigidBody2D>();
-            GetTree().Root.AddChild(boy);
-            boy.GlobalPosition = _Output.GlobalPosition;
+            _currentBoy = _BouncyBoy.Instance<RigidBody2D>();
+            GetTree().Root.AddChild(_currentBoy);
+            _currentBoy.GlobalPosition = _Output.GlobalPosition;
 
             Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
-            boy.LinearVelocity = direction * _Strength;
+            _currentBoy.LinearVelocity = direction * _Strength;
         }
     }
-
 }

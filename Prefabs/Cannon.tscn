@@ -12,6 +12,7 @@ _MinAngle = -90.0
 _MaxAngle = 0.0
 _OutputPath = NodePath("Model/Barrel/Output")
 _StartOfBarrelPath = NodePath("Model/Barrel")
+_CameraPath = NodePath("Camera2D")
 _BouncyBoy = ExtResource( 2 )
 
 [node name="Model" type="Node2D" parent="."]
