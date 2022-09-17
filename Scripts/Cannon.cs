@@ -89,9 +89,12 @@ public class Cannon : Node2D
             _TimeToFire -= delta;
             if (_TimeToFire <= 0)
             {
-                _currentBoy = _BouncyBoy.Instance<RigidBody2D>();
+                _currentBoy = _BouncyBoy.Instance<BouncyBoy>();
+                _currentBoy.cannon = this;
+
                 _currentBoy.GlobalPosition = _StartOfBarrel.GlobalPosition;
                 GetTree().Root.AddChild(_currentBoy);
+                InfiniteScrollingBackground.Instance.FocusedObjectPath = _currentBoy.GetPath();
 
                 Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
                 _currentBoy.LinearVelocity = direction * _Strength;
