@@ -8,6 +8,7 @@ public class Cannon : Node2D
     [Export] float _RotationSpeed = 5;
     [Export] float _MinAngle = 0;
     [Export] float _MaxAngle = 90;
+    [Export] float _FireTime = 0.6f;
 
     [Export] NodePath _OutputPath;
     Node2D _Output;
@@ -18,9 +19,14 @@ public class Cannon : Node2D
     [Export] NodePath _CameraPath;
     Camera2D _Camera;
 
+    [Export] NodePath _FireSoundPath;
+    AudioStreamPlayer2D _FireSound;
+
     [Export] PackedScene _BouncyBoy;
 
     RigidBody2D _currentBoy;
+
+    float _TimeToFire = 0f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -28,6 +34,7 @@ public class Cannon : Node2D
         _Output = GetNode<Node2D>(_OutputPath);
         _StartOfBarrel = GetNode<Node2D>(_StartOfBarrelPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
+        _FireSound = GetNode<AudioStreamPlayer2D>(_FireSoundPath);
 
         _StartOfBarrel.RotationDegrees = _StartAngle;
     }
@@ -35,11 +42,11 @@ public class Cannon : Node2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if(Input.IsActionPressed("Aim_up"))
+        if (Input.IsActionPressed("Aim_up"))
         {
             _StartOfBarrel.RotationDegrees -= _RotationSpeed * delta;
         }
-        if(Input.IsActionPressed("Aim_down"))
+        if (Input.IsActionPressed("Aim_down"))
         {
             _StartOfBarrel.RotationDegrees += _RotationSpeed * delta;
         }
@@ -49,14 +56,24 @@ public class Cannon : Node2D
         bool boyExists = IsInstanceValid(_currentBoy);
         _Camera.Current = !boyExists;
 
-        if (Input.IsActionJustPressed("Fire") && !boyExists)
+        if (Input.IsActionJustPressed("Fire") && !boyExists && _TimeToFire <= 0)
         {
-            _currentBoy = _BouncyBoy.Instance<RigidBody2D>();
-            _currentBoy.GlobalPosition = _StartOfBarrel.GlobalPosition;
-            GetTree().Root.AddChild(_currentBoy);
+            _FireSound.Play();
+            _TimeToFire = _FireTime;
+        }
 
-            Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
-            _currentBoy.LinearVelocity = direction * _Strength;
+        if (_TimeToFire > 0)
+        {
+            _TimeToFire -= delta;
+            if (_TimeToFire <= 0)
+            {
+                _currentBoy = _BouncyBoy.Instance<RigidBody2D>();
+                _currentBoy.GlobalPosition = _StartOfBarrel.GlobalPosition;
+                GetTree().Root.AddChild(_currentBoy);
+
+                Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
+                _currentBoy.LinearVelocity = direction * _Strength;
+            }
         }
     }
 }

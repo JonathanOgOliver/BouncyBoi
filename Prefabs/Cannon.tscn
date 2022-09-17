@@ -1,18 +1,21 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Cannon.cs" type="Script" id=1]
 [ext_resource path="res://Prefabs/BouncyBoy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Images/Arrow.png" type="Texture" id=3]
 [ext_resource path="res://Images/CannonFixed.png" type="Texture" id=4]
+[ext_resource path="res://Sounds/Cannon shoot.wav" type="AudioStream" id=5]
 
 [node name="Cannon" type="Node2D"]
 script = ExtResource( 1 )
 _RotationSpeed = 20.0
 _MinAngle = -90.0
 _MaxAngle = 0.0
+_FireTime = 0.55
 _OutputPath = NodePath("Model/Barrel/Output")
 _StartOfBarrelPath = NodePath("Model/Barrel")
-_CameraPath = NodePath("Camera2D")
+_CameraPath = NodePath("Model/Barrel/Camera2D")
+_FireSoundPath = NodePath("AudioStreamPlayer2D")
 _BouncyBoy = ExtResource( 2 )
 
 [node name="Model" type="Node2D" parent="."]
@@ -33,6 +36,9 @@ offset = Vector2( 22.888, 0 )
 [node name="Output" type="Node2D" parent="Model/Barrel"]
 position = Vector2( 117, 0 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 262, -237 )
+[node name="Camera2D" type="Camera2D" parent="Model/Barrel"]
+position = Vector2( 114, -56 )
 current = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
