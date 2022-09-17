@@ -20,6 +20,7 @@ public class BouncyBoy : RigidBody2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
+        Score.Instance.CurrentScore = (int)(GlobalPosition.x - _startPosition.x);
         _RayCast.GlobalRotation = 0;
         if(LinearVelocity.Length() <= _MinSpeed && _RayCast.IsColliding())
         {

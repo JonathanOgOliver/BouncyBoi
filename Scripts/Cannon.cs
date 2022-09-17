@@ -52,8 +52,8 @@ public class Cannon : Node2D
         if (Input.IsActionJustPressed("Fire") && !boyExists)
         {
             _currentBoy = _BouncyBoy.Instance<RigidBody2D>();
-            GetTree().Root.AddChild(_currentBoy);
             _currentBoy.GlobalPosition = _Output.GlobalPosition;
+            GetTree().Root.AddChild(_currentBoy);
 
             Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
             _currentBoy.LinearVelocity = direction * _Strength;
