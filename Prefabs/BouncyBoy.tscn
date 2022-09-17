@@ -20,6 +20,7 @@ linear_damp = -0.5
 script = ExtResource( 2 )
 _MinSpeed = 5.0
 _RayCastPath = NodePath("RayCast2D")
+_CameraPath = NodePath("Camera2D")
 
 [node name="Model" type="Node2D" parent="."]
 

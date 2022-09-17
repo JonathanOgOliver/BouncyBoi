@@ -22,7 +22,7 @@ public class Trampoline : Area2D
     {
         if(other is BouncyBoy bb)
         {
-            bb.LinearVelocity = new Vector2(bb.LinearVelocity.x, -bb.LinearVelocity.y * Strength);
+            bb.LinearVelocity = new Vector2(bb.LinearVelocity.x, -bb.LinearVelocity.y).Rotated(GlobalRotation) * Strength;
         }
     }
 
