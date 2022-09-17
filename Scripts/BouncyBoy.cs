@@ -10,19 +10,28 @@ public class BouncyBoy : RigidBody2D
 
     [Export] NodePath _CameraPath;
     Camera2D _Camera;
+    public Camera2D Camera => _Camera;
 
     Vector2 _startPosition;
 
     public Cannon cannon;
 
+    public static BouncyBoy Current { get; private set; }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        Current = this;
         _RayCast = GetNode<RayCast2D>(_RayCastPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
         _startPosition = Position;
     }
 
+    public override void _ExitTree()
+    {
+        Current = null;
+    }
+    
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
