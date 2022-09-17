@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Space Ambience.mp3-735e39cb2daef7f7abc93e68d1db9de4.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Space Ambience.mp3"
+dest_files=[ "res://.import/Space Ambience.mp3-735e39cb2daef7f7abc93e68d1db9de4.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

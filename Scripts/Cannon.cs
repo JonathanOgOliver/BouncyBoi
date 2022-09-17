@@ -22,6 +22,12 @@ public class Cannon : Node2D
     [Export] NodePath _FireSoundPath;
     AudioStreamPlayer2D _FireSound;
 
+    [Export] NodePath _BeforeFireingPath;
+    AudioStreamPlayer _BeforeFireing;
+
+    [Export] NodePath _AfterFireingPath;
+    AudioStreamPlayer _AfterFireing;
+
     [Export] PackedScene _BouncyBoy;
 
     RigidBody2D _currentBoy;
@@ -35,8 +41,12 @@ public class Cannon : Node2D
         _StartOfBarrel = GetNode<Node2D>(_StartOfBarrelPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
         _FireSound = GetNode<AudioStreamPlayer2D>(_FireSoundPath);
+        _BeforeFireing = GetNode<AudioStreamPlayer>(_BeforeFireingPath);
+        _AfterFireing = GetNode<AudioStreamPlayer>(_AfterFireingPath);
 
         _StartOfBarrel.RotationDegrees = _StartAngle;
+
+        _BeforeFireing.Play();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,11 +66,20 @@ public class Cannon : Node2D
         bool boyExists = IsInstanceValid(_currentBoy);
         _Camera.Current = !boyExists;
 
-        if (Input.IsActionJustPressed("Fire") && !boyExists && _TimeToFire <= 0)
+        if (!boyExists)
         {
-            _FireSound.Play();
-            _TimeToFire = _FireTime;
+            if(_AfterFireing.Playing)
+            {
+                _AfterFireing.Stop();
+                _BeforeFireing.Play();
+            }
+            if (Input.IsActionJustPressed("Fire") && _TimeToFire <= 0)
+            {
+                _FireSound.Play();
+                _TimeToFire = _FireTime;
+            }
         }
+
 
         if (_TimeToFire > 0)
         {
@@ -73,6 +92,9 @@ public class Cannon : Node2D
 
                 Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
                 _currentBoy.LinearVelocity = direction * _Strength;
+
+                _AfterFireing.Play();
+                _BeforeFireing.Stop();
             }
         }
     }
