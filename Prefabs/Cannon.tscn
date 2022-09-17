@@ -1,127 +1,54 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Cannon.cs" type="Script" id=1]
 [ext_resource path="res://Prefabs/BouncyBoy.tscn" type="PackedScene" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Images/Arrow.png" type="Texture" id=3]
+[ext_resource path="res://Images/CannonFixed.png" type="Texture" id=4]
+[ext_resource path="res://Sounds/Cannon shoot.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sounds/Space Ambience.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Sounds/Farting Around.mp3" type="AudioStream" id=7]
 
 [node name="Cannon" type="Node2D"]
-position = Vector2( -376, 994 )
 script = ExtResource( 1 )
 _RotationSpeed = 20.0
 _MinAngle = -90.0
 _MaxAngle = 0.0
+_FireTime = 0.55
 _OutputPath = NodePath("Model/Barrel/Output")
 _StartOfBarrelPath = NodePath("Model/Barrel")
-_CameraPath = NodePath("Camera2D")
+_CameraPath = NodePath("Model/Barrel/Camera2D")
+_FireSoundPath = NodePath("FireSound")
+_BeforeFireingPath = NodePath("BeforeFireing")
+_AfterFireingPath = NodePath("AfterFireing")
 _BouncyBoy = ExtResource( 2 )
 
 [node name="Model" type="Node2D" parent="."]
 
 [node name="Base" type="Sprite" parent="Model"]
-modulate = Color( 0.254902, 0.164706, 0.0784314, 1 )
-scale = Vector2( 2.48, 1 )
-texture = ExtResource( 3 )
-
-[node name="Wheel" type="Node2D" parent="Model"]
-position = Vector2( -72, 31 )
-
-[node name="Icon" type="Sprite" parent="Model/Wheel"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0480042, -0.951965 )
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon2" type="Sprite" parent="Model/Wheel"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0480042, -0.951965 )
-rotation = 0.261799
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon3" type="Sprite" parent="Model/Wheel"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 0.523599
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon4" type="Sprite" parent="Model/Wheel"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 0.785398
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon5" type="Sprite" parent="Model/Wheel"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 1.0472
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon6" type="Sprite" parent="Model/Wheel"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 1.309
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Wheel2" type="Node2D" parent="Model"]
-position = Vector2( 69, 31 )
-
-[node name="Icon" type="Sprite" parent="Model/Wheel2"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0480042, -0.951965 )
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon2" type="Sprite" parent="Model/Wheel2"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0480042, -0.951965 )
-rotation = 0.261799
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon3" type="Sprite" parent="Model/Wheel2"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 0.523599
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon4" type="Sprite" parent="Model/Wheel2"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 0.785398
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon5" type="Sprite" parent="Model/Wheel2"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 1.0472
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
-
-[node name="Icon6" type="Sprite" parent="Model/Wheel2"]
-modulate = Color( 0.0588235, 0.0313726, 0.0313726, 1 )
-position = Vector2( 0.0479736, -0.951965 )
-rotation = 1.309
-scale = Vector2( 0.487197, 0.487197 )
-texture = ExtResource( 3 )
+position = Vector2( 0, -219 )
+texture = ExtResource( 4 )
 
 [node name="Barrel" type="Node2D" parent="Model"]
-position = Vector2( 1, -15 )
+position = Vector2( 148, -181 )
 
 [node name="Icon" type="Sprite" parent="Model/Barrel"]
-modulate = Color( 1, 0, 0.866667, 1 )
-scale = Vector2( 5, 1 )
+position = Vector2( 52, 0 )
+scale = Vector2( 0.305204, 0.305204 )
 texture = ExtResource( 3 )
 offset = Vector2( 22.888, 0 )
 
 [node name="Output" type="Node2D" parent="Model/Barrel"]
-position = Vector2( 268, 0 )
+position = Vector2( 117, 0 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 262, -237 )
+[node name="Camera2D" type="Camera2D" parent="Model/Barrel"]
+position = Vector2( 114, -56 )
 current = true
+
+[node name="FireSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="BeforeFireing" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="AfterFireing" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
