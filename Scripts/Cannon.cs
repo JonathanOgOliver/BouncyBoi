@@ -20,11 +20,14 @@ public class Cannon : Node2D
 
     [Export] PackedScene _BouncyBoy;
 
-    RigidBody2D _currentBoy;
+
+
+    BouncyBoy _currentBoy;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        InfiniteScrollingBackground.Instance.FocusedObjectPath = this.GetPath();
         _Output = GetNode<Node2D>(_OutputPath);
         _StartOfBarrel = GetNode<Node2D>(_StartOfBarrelPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
@@ -51,12 +54,15 @@ public class Cannon : Node2D
 
         if (Input.IsActionJustPressed("Fire") && !boyExists)
         {
-            _currentBoy = _BouncyBoy.Instance<RigidBody2D>();
+            _currentBoy = _BouncyBoy.Instance<BouncyBoy>();
+            _currentBoy.cannon = this;
             _currentBoy.GlobalPosition = _Output.GlobalPosition;
             GetTree().Root.AddChild(_currentBoy);
 
             Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
             _currentBoy.LinearVelocity = direction * _Strength;
+            InfiniteScrollingBackground.Instance.FocusedObjectPath = _currentBoy.GetPath();
+
         }
     }
 }

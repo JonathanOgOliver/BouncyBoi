@@ -10,6 +10,8 @@ public class BouncyBoy : RigidBody2D
     
     Vector2 _startPosition;
 
+    public Cannon cannon;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -25,6 +27,7 @@ public class BouncyBoy : RigidBody2D
         if(LinearVelocity.Length() <= _MinSpeed && _RayCast.IsColliding())
         {
             LinearVelocity = Vector2.Zero;
+            InfiniteScrollingBackground.Instance.FocusedObjectPath = cannon.GetPath();
             QueueFree();
         }
     }
