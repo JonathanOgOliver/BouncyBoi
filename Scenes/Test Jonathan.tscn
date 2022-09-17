@@ -6,7 +6,9 @@
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 33 )
 
-[node name="Test Jonathan" type="Node2D"]
+[node name="Test Jonathan" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="Groudn thing" type="StaticBody2D" parent="."]
 position = Vector2( 29778, 1053 )
@@ -29,3 +31,13 @@ z_index = -1
 texture = ExtResource( 2 )
 
 [node name="Cannon" parent="." instance=ExtResource( 1 )]
+
+[node name="Hud" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Score" type="Label" parent="Hud"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Score: "
+align = 1
