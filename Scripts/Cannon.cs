@@ -39,7 +39,7 @@ public class Cannon : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        InfiniteScrollingBackground.Instance.FocusedObjectPath = this.GetPath();
+        InfiniteScrollingBackground.focusedObject = this;
         _Output = GetNode<Node2D>(_OutputPath);
         _StartOfBarrel = GetNode<Node2D>(_StartOfBarrelPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
@@ -94,7 +94,7 @@ public class Cannon : Node2D
 
                 _currentBoy.GlobalPosition = _StartOfBarrel.GlobalPosition;
                 GetTree().Root.AddChild(_currentBoy);
-                InfiniteScrollingBackground.Instance.FocusedObjectPath = _currentBoy.GetPath();
+                InfiniteScrollingBackground.focusedObject = _currentBoy;
 
                 Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
                 _currentBoy.LinearVelocity = direction * _Strength;

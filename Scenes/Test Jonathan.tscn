@@ -1,14 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Prefabs/Cannon.tscn" type="PackedScene" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Ground.cs" type="Script" id=2]
 [ext_resource path="res://Fonts/Bebas Neue/BebasNeue-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scripts/Score.cs" type="Script" id=4]
 [ext_resource path="res://Prefabs/Trampoline.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/InfiniteScrollingBackground.tscn" type="PackedScene" id=6]
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 33 )
+[ext_resource path="res://Images/Ground.png" type="Texture" id=7]
+[ext_resource path="res://Images/BigSeamlessBackground.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=4]
 size = 36
@@ -17,27 +16,21 @@ font_data = ExtResource( 3 )
 [sub_resource type="Theme" id=3]
 default_font = SubResource( 4 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 511, 20 )
+
 [node name="Test Jonathan" type="Node2D"]
 
-[node name="Groudn thing" type="StaticBody2D" parent="."]
-position = Vector2( 29795, 12.0001 )
-scale = Vector2( 950.08, 0.2 )
-collision_layer = 2
-
-[node name="Icon" type="Sprite" parent="Groudn thing"]
-modulate = Color( 0.00784314, 1, 0, 1 )
-texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Groudn thing"]
-shape = SubResource( 2 )
-
 [node name="InfiniteScrollingBackground" parent="." instance=ExtResource( 6 )]
-position = Vector2( -61, -179 )
-FocusedObjectPath = NodePath("../Cannon")
-amountAheadAndBehind = 2
+position = Vector2( 0, -2687.5 )
+scale = Vector2( 5, 5 )
+backgroundTexture = ExtResource( 8 )
+
+[node name="GroundTexture" parent="." instance=ExtResource( 6 )]
+backgroundTexture = ExtResource( 7 )
 
 [node name="Cannon" parent="." instance=ExtResource( 1 )]
-_Strength = 1000.0
+_Strength = 5000.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
@@ -65,3 +58,10 @@ align = 1
 
 [node name="Trampoline" parent="." instance=ExtResource( 5 )]
 position = Vector2( 278, -37 )
+
+[node name="Ground" type="StaticBody2D" parent="."]
+collision_layer = 2
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource( 5 )
