@@ -9,6 +9,8 @@ public class Cannon : Node2D
     [Export] float _MinAngle = 0;
     [Export] float _MaxAngle = 90;
     [Export] float _FireTime = 0.6f;
+    [Export] float _ScaleSpeed = 1f;
+
 
     [Export] NodePath _OutputPath;
     Node2D _Output;
@@ -30,11 +32,12 @@ public class Cannon : Node2D
 
     [Export] PackedScene _BouncyBoy;
 
-
-
     BouncyBoy _currentBoy;
 
     float _TimeToFire = 0f;
+
+    bool _hasSetAngle;
+    int _angleAndSpeedDirection = 1;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -55,15 +58,6 @@ public class Cannon : Node2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if (Input.IsActionPressed("Aim_up"))
-        {
-            _StartOfBarrel.RotationDegrees -= _RotationSpeed * delta;
-        }
-        if (Input.IsActionPressed("Aim_down"))
-        {
-            _StartOfBarrel.RotationDegrees += _RotationSpeed * delta;
-        }
-
         _StartOfBarrel.RotationDegrees = Mathf.Clamp(_StartOfBarrel.RotationDegrees, _MinAngle, _MaxAngle);
 
         bool boyExists = IsInstanceValid(_currentBoy);
@@ -71,15 +65,39 @@ public class Cannon : Node2D
 
         if (!boyExists)
         {
-            if(_AfterFireing.Playing)
+            if (_AfterFireing.Playing)
             {
                 _AfterFireing.Stop();
                 _BeforeFireing.Play();
             }
-            if (Input.IsActionJustPressed("Fire") && _TimeToFire <= 0)
+
+            if (!_hasSetAngle)
             {
-                _FireSound.Play();
-                _TimeToFire = _FireTime;
+                _StartOfBarrel.RotationDegrees += _RotationSpeed * delta * _angleAndSpeedDirection;
+                if (_StartOfBarrel.RotationDegrees >= _MaxAngle && _angleAndSpeedDirection > 0)
+                    _angleAndSpeedDirection = -1;
+                else if (_StartOfBarrel.RotationDegrees <= _MinAngle && _angleAndSpeedDirection < 0)
+                    _angleAndSpeedDirection = 1;
+
+                if (Input.IsActionJustPressed("Fire"))
+                {
+                    _hasSetAngle = true;
+                    _angleAndSpeedDirection = 1;
+                }
+            }
+            else if(_TimeToFire <= 0)
+            {
+                _StartOfBarrel.Scale = new Vector2(_StartOfBarrel.Scale.x + _ScaleSpeed * delta * _angleAndSpeedDirection, _StartOfBarrel.Scale.y);
+                if (_StartOfBarrel.Scale.x >= 1 && _angleAndSpeedDirection > 0)
+                    _angleAndSpeedDirection = -1;
+                else if (_StartOfBarrel.Scale.x <= 0.1f && _angleAndSpeedDirection < 0)
+                    _angleAndSpeedDirection = 1;
+
+                if (Input.IsActionJustPressed("Fire"))
+                {
+                    _FireSound.Play();
+                    _TimeToFire = _FireTime;
+                }
             }
         }
 
@@ -97,10 +115,13 @@ public class Cannon : Node2D
                 InfiniteScrollingBackground.focusedObject = _currentBoy;
 
                 Vector2 direction = (_Output.GlobalPosition - _StartOfBarrel.GlobalPosition).Normalized();
-                _currentBoy.LinearVelocity = direction * _Strength;
+                _currentBoy.LinearVelocity = direction * _Strength * _StartOfBarrel.Scale.x;
 
                 _AfterFireing.Play();
                 _BeforeFireing.Stop();
+                _hasSetAngle = false;
+                _StartOfBarrel.Scale = new Vector2(1, _StartOfBarrel.Scale.y);
+                _StartOfBarrel.RotationDegrees = (float)GD.RandRange(_MinAngle, _MaxAngle);
             }
         }
     }

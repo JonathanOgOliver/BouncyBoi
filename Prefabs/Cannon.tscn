@@ -17,7 +17,7 @@ _MaxAngle = 0.0
 _FireTime = 0.55
 _OutputPath = NodePath("Model/Barrel/Output")
 _StartOfBarrelPath = NodePath("Model/Barrel")
-_CameraPath = NodePath("Model/Barrel/Camera2D")
+_CameraPath = NodePath("Model/Camera2D")
 _FireSoundPath = NodePath("FireSound")
 _BeforeFireingPath = NodePath("BeforeFireing")
 _AfterFireingPath = NodePath("AfterFireing")
@@ -28,6 +28,10 @@ _BouncyBoy = ExtResource( 2 )
 [node name="Base" type="Sprite" parent="Model"]
 position = Vector2( 0, -219 )
 texture = ExtResource( 4 )
+
+[node name="Camera2D" type="Camera2D" parent="Model"]
+position = Vector2( 180, -346 )
+current = true
 
 [node name="Barrel" type="Node2D" parent="Model"]
 position = Vector2( 148, -181 )
@@ -40,10 +44,6 @@ offset = Vector2( 22.888, 0 )
 
 [node name="Output" type="Node2D" parent="Model/Barrel"]
 position = Vector2( 117, 0 )
-
-[node name="Camera2D" type="Camera2D" parent="Model/Barrel"]
-position = Vector2( 114, -56 )
-current = true
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
