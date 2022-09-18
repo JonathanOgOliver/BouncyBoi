@@ -55,7 +55,6 @@ public class BouncyBoy : RigidBody2D
         _Camera.GlobalPosition = new Vector2(GlobalPosition.x, cameraYPos);
         _Camera.Zoom = new Vector2(zoomLevel, zoomLevel);
 
-        Score.Instance.CurrentScore = (int)(GlobalPosition.x - _startPosition.x);
         _RayCast.GlobalRotation = 0;
         bool onGround = _RayCast.IsColliding();
 
@@ -68,8 +67,11 @@ public class BouncyBoy : RigidBody2D
         {
             LinearVelocity = Vector2.Zero;
             InfiniteScrollingBackground.focusedObject = cannon;
-            Score.Instance.Save();
-            QueueFree();
+            Leaderboard.Instance.Show();
+        }
+        else
+        {
+            Score.Instance.CurrentScore = (int)(GlobalPosition.x - _startPosition.x);
         }
 
         if (Input.IsActionPressed("Fire"))

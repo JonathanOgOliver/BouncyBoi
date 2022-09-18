@@ -30,7 +30,7 @@ position = Vector2( 0, -219 )
 texture = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="Model"]
-position = Vector2( 180, -346 )
+position = Vector2( 172, -297 )
 current = true
 
 [node name="Barrel" type="Node2D" parent="Model"]

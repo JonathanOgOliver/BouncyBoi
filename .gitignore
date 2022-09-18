@@ -10,6 +10,8 @@ export_presets.cfg
 .mono/
 data_*/
 
+Builds/
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

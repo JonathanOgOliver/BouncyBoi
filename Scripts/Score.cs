@@ -13,12 +13,17 @@ public class Score : Node
     [Export] NodePath _HighScoreLabelPath;
     Label _HighScoreLabel;
 
+    [Export] NodePath _LeaderboardPath;
+    Node2D _Leaderboard;
+
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         Instance = this;
         _ScoreLabel = GetNode<Label>(_ScoreLabelPath);
         _HighScoreLabel = GetNode<Label>(_HighScoreLabelPath);
+        _Leaderboard = GetNode<Node2D>(_LeaderboardPath);
 
         var saveData = new File();
         if (saveData.FileExists("user://Highscore.bounce"))

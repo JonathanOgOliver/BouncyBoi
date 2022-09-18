@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Prefabs/Cannon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Ground.cs" type="Script" id=2]
@@ -11,6 +11,9 @@
 [ext_resource path="res://Images/Arrow2.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/PlayerAbove.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/ObstacleSpawner.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Leaderboard.gd" type="Script" id=12]
+[ext_resource path="res://Prefabs/ScoreEntry.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scripts/Leaderboard.cs" type="Script" id=14]
 
 [sub_resource type="DynamicFont" id=4]
 size = 36
@@ -40,10 +43,126 @@ _Strength = 2000.0
 script = ExtResource( 4 )
 _ScoreLabelPath = NodePath("Hud/Score")
 _HighScoreLabelPath = NodePath("Hud/HighScore")
+_LeaderboardPath = NodePath("../Leaderboard")
+
+[node name="Leaderboard" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 3 )
+script = ExtResource( 14 )
+_LeaderboardConnectionPath = NodePath("../../Leaderboard")
+_RestartButtonPath = NodePath("Panel/MarginContainer/HBoxContainer/HBoxContainer/Button")
+_LeaderboardVBoxPath = NodePath("Panel/MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer")
+_ScoreEntryScene = ExtResource( 13 )
+_NewHighscoreSectionPath = NodePath("Panel/MarginContainer/HBoxContainer/New highscore")
+_NameBoxPath = NodePath("Panel/MarginContainer/HBoxContainer/New highscore/LineEdit")
+_SubmitButtonPath = NodePath("Panel/MarginContainer/HBoxContainer/New highscore/Submit")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Leaderboard"]
+self_modulate = Color( 1, 1, 1, 0.596078 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Leaderboard/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="HBoxContainer" type="VBoxContainer" parent="CanvasLayer/Leaderboard/Panel/MarginContainer"]
+margin_right = 1004.0
+margin_bottom = 580.0
+
+[node name="Title" type="Label" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer"]
+margin_right = 1004.0
+margin_bottom = 44.0
+text = "Leaderboards"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer"]
+margin_top = 48.0
+margin_right = 1004.0
+margin_bottom = 439.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/ScrollContainer"]
+margin_right = 1004.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+
+[node name="ScoreTitle" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+modulate = Color( 0.6, 0.960784, 0.894118, 1 )
+
+[node name="New highscore" type="HBoxContainer" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer"]
+margin_top = 443.0
+margin_right = 1004.0
+margin_bottom = 497.0
+
+[node name="Score" type="Label" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/New highscore"]
+margin_top = 5.0
+margin_right = 182.0
+margin_bottom = 49.0
+custom_colors/font_color = Color( 1, 0.470588, 0, 1 )
+text = "New highscore!"
+
+[node name="Control" type="Control" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/New highscore"]
+margin_left = 186.0
+margin_right = 236.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 50, 0 )
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/New highscore"]
+margin_left = 240.0
+margin_right = 907.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+max_length = 20
+placeholder_text = "Name"
+placeholder_alpha = 0.375
+
+[node name="Submit" type="Button" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/New highscore"]
+margin_left = 911.0
+margin_right = 1004.0
+margin_bottom = 54.0
+text = "Submit"
+
+[node name="Control2" type="Control" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer"]
+margin_top = 501.0
+margin_right = 1004.0
+margin_bottom = 526.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer"]
+margin_top = 530.0
+margin_right = 1004.0
+margin_bottom = 580.0
+
+[node name="Control2" type="Control" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_right = 332.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 336.0
+margin_right = 668.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+text = "Restart"
+
+[node name="Control" type="Control" parent="CanvasLayer/Leaderboard/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 672.0
+margin_right = 1004.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
 
 [node name="Hud" type="Control" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme = SubResource( 3 )
 
 [node name="PlayerAbove" type="Control" parent="CanvasLayer/Hud"]
@@ -52,6 +171,7 @@ anchor_right = 0.5
 margin_left = -100.0
 margin_right = 100.0
 margin_bottom = 200.0
+mouse_filter = 2
 script = ExtResource( 10 )
 _HeightToBeAbove = -2687.5
 _LabelPath = NodePath("Label")
@@ -62,6 +182,7 @@ anchor_right = 0.5
 margin_left = -25.0
 margin_right = 25.0
 margin_bottom = 50.0
+mouse_filter = 2
 texture = ExtResource( 9 )
 expand = true
 
@@ -105,3 +226,6 @@ maxDistanceInterval = 2250.0
 killDistance = 5000.0
 minRotation = 15.0
 maxRotation = 45.0
+
+[node name="Leaderboard" type="Node2D" parent="."]
+script = ExtResource( 12 )
