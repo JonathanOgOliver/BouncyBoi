@@ -5,6 +5,8 @@ public class BouncyBoy : RigidBody2D
 {
     [Export] float _MinSpeed = 1;
     [Export] float _MaxCameraY = 5000;
+    [Export] float _SurgeSpeeed = 10;
+    [Export] float _SurgeAngle = 30;
 
     [Export] NodePath _RayCastPath;
     RayCast2D _RayCast;
@@ -18,6 +20,7 @@ public class BouncyBoy : RigidBody2D
     public Cannon cannon;
 
     public static BouncyBoy Current { get; private set; }
+    
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -49,11 +52,18 @@ public class BouncyBoy : RigidBody2D
 
         Score.Instance.CurrentScore = (int)(GlobalPosition.x - _startPosition.x);
         _RayCast.GlobalRotation = 0;
-        if (LinearVelocity.Length() <= _MinSpeed && _RayCast.IsColliding())
+        bool onGround = _RayCast.IsColliding();
+
+        if (LinearVelocity.Length() <= _MinSpeed && onGround)
         {
             LinearVelocity = Vector2.Zero;
             InfiniteScrollingBackground.focusedObject = cannon;
             QueueFree();
+        }
+
+        if(Input.IsActionPressed("Fire") && !onGround)
+        {
+            LinearVelocity = new Vector2(_SurgeSpeeed, 0).Rotated(Mathf.Deg2Rad(_SurgeAngle));
         }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Prefabs/Cannon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Ground.cs" type="Script" id=2]
@@ -8,7 +8,8 @@
 [ext_resource path="res://Prefabs/InfiniteScrollingBackground.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Images/Ground.png" type="Texture" id=7]
 [ext_resource path="res://Images/BigSeamlessBackground.png" type="Texture" id=8]
-[ext_resource path="res://Scripts/ObstacleSpawner.cs" type="Script" id=9]
+[ext_resource path="res://Images/Arrow2.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/PlayerAbove.cs" type="Script" id=10]
 
 [sub_resource type="DynamicFont" id=4]
 size = 36
@@ -43,11 +44,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 3 )
 
-[node name="Score" type="Label" parent="CanvasLayer/Hud"]
-anchor_right = 1.0
-margin_bottom = 20.0
-text = "62735456465"
+[node name="PlayerAbove" type="Control" parent="CanvasLayer/Hud"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -100.0
+margin_right = 100.0
+margin_bottom = 200.0
+script = ExtResource( 10 )
+_HeightToBeAbove = -5375.0
+_LabelPath = NodePath("Label")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/PlayerAbove"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -25.0
+margin_right = 25.0
+margin_bottom = 50.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/PlayerAbove"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -49.0
+margin_top = 50.0
+margin_right = 49.0
+margin_bottom = 94.0
+text = "+465465"
 align = 1
+
+[node name="Score" type="Label" parent="CanvasLayer/Hud"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -44.0
+text = "62735456465"
+align = 2
 
 [node name="HighScore" type="Label" parent="CanvasLayer/Hud"]
 anchor_top = 1.0
@@ -55,7 +87,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -44.0
 text = "62735456465"
-align = 1
 
 [node name="Trampoline" parent="." instance=ExtResource( 5 )]
 position = Vector2( 278, -37 )

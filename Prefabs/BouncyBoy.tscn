@@ -20,6 +20,7 @@ linear_damp = -0.5
 script = ExtResource( 2 )
 _MinSpeed = 5.0
 _MaxCameraY = -5375.0
+_SurgeSpeeed = 3000.0
 _RayCastPath = NodePath("RayCast2D")
 _CameraPath = NodePath("Camera2D")
 
