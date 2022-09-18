@@ -56,6 +56,7 @@ public class ObstacleSpawner : Node2D
                 obj.QueueFree();
             }
             objects.Clear();
+            isStarted = false;
         }
 
     }
