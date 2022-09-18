@@ -42,6 +42,7 @@ public class ObstacleSpawner : Node2D
                 isStarted = true;
                 nextInterval = BouncyBoy.Current.GlobalPosition.x + RandomInterval;
             }
+            //TODO: nextInterval reset!!!
             if(BouncyBoy.Current.GlobalPosition.x >= nextInterval){
                 SpawnObstacle();
                 nextInterval = BouncyBoy.Current.GlobalPosition.x + RandomInterval;
@@ -51,6 +52,9 @@ public class ObstacleSpawner : Node2D
                 farthestObject = null;
             }
         }else{
+            foreach(Node2D obj in objects){
+                obj.QueueFree();
+            }
             objects.Clear();
         }
 
