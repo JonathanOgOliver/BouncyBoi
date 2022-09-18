@@ -14,6 +14,11 @@ config/name="Bouncy Boi"
 run/main_scene="res://Scenes/Test Jonathan.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="2d"
+window/stretch/aspect="keep_width"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
