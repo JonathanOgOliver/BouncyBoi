@@ -23,6 +23,7 @@ default_font = SubResource( 4 )
 extents = Vector2( 511, 20 )
 
 [node name="Test Jonathan" type="Node2D"]
+position = Vector2( 0, 13 )
 
 [node name="InfiniteScrollingBackground" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, -1343.75 )
@@ -88,10 +89,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -44.0
 text = "62735456465"
-
-[node name="Trampoline" parent="." instance=ExtResource( 5 )]
-position = Vector2( 3813, -1259 )
-Strength = Vector2( 0, 0 )
 
 [node name="Ground" type="StaticBody2D" parent="."]
 collision_layer = 2
