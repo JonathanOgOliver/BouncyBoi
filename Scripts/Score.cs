@@ -29,13 +29,18 @@ public class Score : Node
         }
     }
 
-    public override void _ExitTree()
+    public void Save()
     {
         var saveData = new File();
         saveData.Open("user://Highscore.bounce", File.ModeFlags.Write);
         saveData.StoreString(HighScore.ToString());
         saveData.Flush();
         saveData.Close();
+    }
+
+    public override void _ExitTree()
+    {
+        Save();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Prefabs/Cannon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Ground.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Images/BigSeamlessBackground.png" type="Texture" id=8]
 [ext_resource path="res://Images/Arrow2.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/PlayerAbove.cs" type="Script" id=10]
+[ext_resource path="res://Scripts/ObstacleSpawner.cs" type="Script" id=11]
 
 [sub_resource type="DynamicFont" id=4]
 size = 36
@@ -24,15 +25,15 @@ extents = Vector2( 511, 20 )
 [node name="Test Jonathan" type="Node2D"]
 
 [node name="InfiniteScrollingBackground" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, -2687.5 )
-scale = Vector2( 5, 5 )
+position = Vector2( 0, -1343.75 )
+scale = Vector2( 2.5, 2.5 )
 backgroundTexture = ExtResource( 8 )
 
 [node name="GroundTexture" parent="." instance=ExtResource( 6 )]
 backgroundTexture = ExtResource( 7 )
 
 [node name="Cannon" parent="." instance=ExtResource( 1 )]
-_Strength = 5000.0
+_Strength = 2000.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
@@ -51,7 +52,7 @@ margin_left = -100.0
 margin_right = 100.0
 margin_bottom = 200.0
 script = ExtResource( 10 )
-_HeightToBeAbove = -5375.0
+_HeightToBeAbove = -2687.5
 _LabelPath = NodePath("Label")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/PlayerAbove"]
@@ -89,7 +90,8 @@ margin_top = -44.0
 text = "62735456465"
 
 [node name="Trampoline" parent="." instance=ExtResource( 5 )]
-position = Vector2( 278, -37 )
+position = Vector2( 3813, -1259 )
+Strength = Vector2( 0, 0 )
 
 [node name="Ground" type="StaticBody2D" parent="."]
 collision_layer = 2
@@ -98,7 +100,11 @@ script = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 shape = SubResource( 5 )
 
-[node name="Node2D" type="Node2D" parent="."]
-script = ExtResource( 9 )
+[node name="ObsticleSpawner" type="Node2D" parent="."]
+script = ExtResource( 11 )
 ObstacleScene = ExtResource( 5 )
+minDistanceInterval = 1000.0
+maxDistanceInterval = 2500.0
 killDistance = 5000.0
+minRotation = 15.0
+maxRotation = 45.0

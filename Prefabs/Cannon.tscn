@@ -11,7 +11,7 @@
 [node name="Cannon" type="Node2D"]
 script = ExtResource( 1 )
 _Strength = 10000.0
-_RotationSpeed = 20.0
+_RotationSpeed = 50.0
 _MinAngle = -90.0
 _MaxAngle = 0.0
 _FireTime = 0.55

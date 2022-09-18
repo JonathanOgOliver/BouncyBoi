@@ -10,6 +10,8 @@ public class ObstacleSpawner : Node2D
     [Export] float nextInterval;
     [Export] float placementOffset = 1000;
     [Export] float killDistance = 100;
+    [Export] float minRotation = -45;
+    [Export] float maxRotation = 30;
     private Queue<Node2D> objects = new Queue<Node2D>();
     
     private bool isStarted = false;
@@ -59,7 +61,7 @@ public class ObstacleSpawner : Node2D
 
         float xPos = (BouncyBoy.Current.Camera.GlobalPosition.x+((GetViewportRect().Size.x*BouncyBoy.Current.Camera.Zoom.x)/2f))+placementOffset;
         float yPos = (float)GD.RandRange(2, -GetViewportRect().Size.y*BouncyBoy.Current.Camera.Zoom.y);
-        float rot = (float)GD.RandRange(0, 360);
+        float rot = (float)GD.RandRange(minRotation, maxRotation);
 
         Node2D newBoi = ObstacleScene.Instance<Node2D>();
         newBoi.GlobalPosition = new Vector2(xPos, yPos);

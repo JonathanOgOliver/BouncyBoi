@@ -3,10 +3,9 @@ using System;
 
 public class BouncyBoy : RigidBody2D
 {
-    [Export] float _MinSpeed = 1;
+    [Export] float _RestartTime = 2;
     [Export] float _MaxCameraY = 5000;
     [Export] float _SurgeSpeeed = 10;
-    [Export] float _SurgeAngle = 30;
 
     [Export] NodePath _RayCastPath;
     RayCast2D _RayCast;
@@ -15,12 +14,17 @@ public class BouncyBoy : RigidBody2D
     Camera2D _Camera;
     public Camera2D Camera => _Camera;
 
+    [Export] NodePath _RotationMarkerPath;
+    Node2D _RotationMarker;
+
     Vector2 _startPosition;
+
+    float _resetTimer;
 
     public Cannon cannon;
 
     public static BouncyBoy Current { get; private set; }
-    
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -28,6 +32,7 @@ public class BouncyBoy : RigidBody2D
         Current = this;
         _RayCast = GetNode<RayCast2D>(_RayCastPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
+        _RotationMarker = GetNode<Node2D>(_RotationMarkerPath);
         _startPosition = Position;
     }
 
@@ -35,7 +40,7 @@ public class BouncyBoy : RigidBody2D
     {
         Current = null;
     }
-    
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
@@ -54,16 +59,28 @@ public class BouncyBoy : RigidBody2D
         _RayCast.GlobalRotation = 0;
         bool onGround = _RayCast.IsColliding();
 
-        if (LinearVelocity.Length() <= _MinSpeed && onGround)
+        if (onGround)
+            _resetTimer -= delta;
+        else
+            _resetTimer = _RestartTime;
+
+        if (onGround && _resetTimer <= 0)
         {
             LinearVelocity = Vector2.Zero;
             InfiniteScrollingBackground.focusedObject = cannon;
+            Score.Instance.Save();
             QueueFree();
         }
 
-        if(Input.IsActionPressed("Fire") && !onGround)
+        if (Input.IsActionPressed("Fire"))
         {
-            LinearVelocity = new Vector2(_SurgeSpeeed, 0).Rotated(Mathf.Deg2Rad(_SurgeAngle));
+            float currentRotation = Mathf.Rad2Deg(LinearVelocity.Angle());
+            if (currentRotation <= 90 && currentRotation >= -90)
+            {
+                LinearVelocity = LinearVelocity.Rotated(_SurgeSpeeed * delta);
+            }
         }
+
+        _RotationMarker.GlobalRotation = LinearVelocity.Angle();
     }
 }

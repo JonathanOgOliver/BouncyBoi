@@ -10,7 +10,7 @@ position = Vector2( 251, -43 )
 scale = Vector2( 0.328703, 0.405981 )
 monitorable = false
 script = ExtResource( 2 )
-Strength = 2.0
+Strength = Vector2( 1.5, 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
