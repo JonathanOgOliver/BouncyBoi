@@ -22,7 +22,8 @@ extents = Vector2( 511, 20 )
 [node name="Test Jonathan" type="Node2D"]
 
 [node name="InfiniteScrollingBackground" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, -537.5 )
+position = Vector2( 0, -2687.5 )
+scale = Vector2( 5, 5 )
 backgroundTexture = ExtResource( 8 )
 
 [node name="GroundTexture" parent="." instance=ExtResource( 6 )]

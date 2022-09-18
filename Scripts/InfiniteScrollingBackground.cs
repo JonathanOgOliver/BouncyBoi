@@ -12,8 +12,11 @@ public class InfiniteScrollingBackground : Node2D
     public static InfiniteScrollingBackground Instance { get; private set; }
 
     private int SpriteCount => Mathf.CeilToInt(IsInstanceValid(BouncyBoy.Current) ? (GetViewportRect().Size.x * BouncyBoy.Current.Camera.Zoom.x) / TextureWidth : GetViewportRect().Size.x / TextureWidth) + 2;
-    private int TextureWidth => backgroundTexture.GetWidth();
-    private int TextureHeight => backgroundTexture.GetHeight();
+    private int TextureWidth => (int)(backgroundTexture.GetWidth() * Scale.x);
+    private int TextureHeight => (int)(backgroundTexture.GetHeight() * Scale.y);
+
+    [Export] float parallaxX = 0f;
+    [Export] float parallaxY = 0f;
 
     public override void _EnterTree()
     {
@@ -36,10 +39,11 @@ public class InfiniteScrollingBackground : Node2D
 
         if (CheckDependencies())
         {
-            Vector2 startPos = new Vector2(focusedObject.GlobalPosition.x - focusedObject.GlobalPosition.x % TextureWidth - TextureWidth * Mathf.FloorToInt(sprites.Count * 0.5f) + TextureWidth, GlobalPosition.y);
+            float startPosX = focusedObject.GlobalPosition.x - focusedObject.GlobalPosition.x % TextureWidth - TextureWidth * Mathf.FloorToInt(sprites.Count * 0.5f) + TextureWidth + (focusedObject.GlobalPosition.x - GlobalPosition.x) * parallaxX;
+            float startPosY = GlobalPosition.y + (focusedObject.GlobalPosition.y - GlobalPosition.y) * parallaxY;
             for (int i = 0; i < sprites.Count; i++)
             {
-                sprites[i].GlobalPosition = new Vector2(startPos.x + TextureWidth * i, GlobalPosition.y);
+                sprites[i].GlobalPosition = new Vector2(startPosX + TextureWidth * i, startPosY);
             }
         }
     }

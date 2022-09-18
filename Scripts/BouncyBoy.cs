@@ -4,6 +4,7 @@ using System;
 public class BouncyBoy : RigidBody2D
 {
     [Export] float _MinSpeed = 1;
+    [Export] float _MaxCameraY = 5000;
 
     [Export] NodePath _RayCastPath;
     RayCast2D _RayCast;
@@ -37,10 +38,12 @@ public class BouncyBoy : RigidBody2D
     {
         var viewPortRect = GetViewportRect();
         float distanceToGround = GlobalPosition.y;
+        float maxZoomLevel = Mathf.Abs(_MaxCameraY) / viewPortRect.Size.y;
         float zoomLevel = -(distanceToGround / viewPortRect.Size.y) + 0.5f;
-        zoomLevel = Mathf.Max(zoomLevel, 1.1f);
+        zoomLevel = Mathf.Clamp(zoomLevel, 1.1f, maxZoomLevel);
         float cameraYPos = distanceToGround * 0.5f - viewPortRect.Size.y * 0.25f;
         cameraYPos = Mathf.Min(cameraYPos, -viewPortRect.Size.y * zoomLevel * 0.5f);
+        cameraYPos = Mathf.Max(cameraYPos, _MaxCameraY * 0.5f);
         _Camera.GlobalPosition = new Vector2(GlobalPosition.x, cameraYPos);
         _Camera.Zoom = new Vector2(zoomLevel, zoomLevel);
 
