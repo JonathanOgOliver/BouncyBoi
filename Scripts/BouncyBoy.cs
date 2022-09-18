@@ -17,6 +17,10 @@ public class BouncyBoy : RigidBody2D
     [Export] NodePath _RotationMarkerPath;
     Node2D _RotationMarker;
 
+    [Export]  NodePath _AudioPlayerPath;
+    AudioStreamPlayer _AudioPlayer;
+    [Export] AudioStreamSample[] _GroundSamples;
+
     Vector2 _startPosition;
 
     float _resetTimer;
@@ -24,6 +28,8 @@ public class BouncyBoy : RigidBody2D
     public Cannon cannon;
 
     public static BouncyBoy Current { get; private set; }
+
+    bool _HasPlayedSound = false;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -33,6 +39,7 @@ public class BouncyBoy : RigidBody2D
         _RayCast = GetNode<RayCast2D>(_RayCastPath);
         _Camera = GetNode<Camera2D>(_CameraPath);
         _RotationMarker = GetNode<Node2D>(_RotationMarkerPath);
+        _AudioPlayer = GetNode<AudioStreamPlayer>(_AudioPlayerPath);
         _startPosition = Position;
     }
 
@@ -58,10 +65,20 @@ public class BouncyBoy : RigidBody2D
         _RayCast.GlobalRotation = 0;
         bool onGround = _RayCast.IsColliding();
 
-        if (onGround)
+        if (onGround){
+            if(!_HasPlayedSound){
+                GD.Randomize();
+                _AudioPlayer.Stream = _GroundSamples[(int)GD.RandRange(0, _GroundSamples.Length)];
+                _AudioPlayer.Play();
+                _HasPlayedSound = true;
+            }
             _resetTimer -= delta;
-        else
+
+        }
+        else{
             _resetTimer = _RestartTime;
+            _HasPlayedSound = false;
+        }
 
         if (onGround && _resetTimer <= 0)
         {
