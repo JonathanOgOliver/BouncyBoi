@@ -49,7 +49,7 @@ public class BouncyBoy : RigidBody2D
         if (LinearVelocity.Length() <= _MinSpeed && _RayCast.IsColliding())
         {
             LinearVelocity = Vector2.Zero;
-            InfiniteScrollingBackground.Instance.FocusedObjectPath = cannon.GetPath();
+            InfiniteScrollingBackground.focusedObject = cannon;
             QueueFree();
         }
     }
